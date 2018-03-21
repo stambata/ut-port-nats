@@ -1,0 +1,41 @@
+{
+  "name": "ut-port-nats",
+  "version": "0.1.0",
+  "description": "UT port NATS",
+  "main": "index.js",
+  "scripts": {
+    "lint": "ut-lint .",
+    "release": "ut-release",
+    "changelog": "ut-changelog",
+    "check": "ut-check",
+    "cover": "ut-cover",
+    "lint-js": "ut-lint-js .",
+    "postpublish": "ut-postpublish",
+    "postversion": "ut-postversion",
+    "precommit": "ut-precommit",
+    "prepublish": "ut-prepublish",
+    "prepush": "ut-prepush",
+    "pretest": "ut-pretest",
+    "preversion": "ut-preversion",
+    "test": "ut-test",
+    "version": "ut-version",
+    "jenkins": "ut-jenkins",
+    "gitlab": "ut-gitlab"
+  },
+  "keywords": [
+    "nats"
+  ],
+  "devDependencies": {
+    "ut-tools": "^5.32.7"
+  },
+  "dependencies": {
+    "lodash.merge": "^4.6.1",
+    "nats": "^0.8.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:stambata/ut-port-nats.git"
+  },
+  "author": "Stamen Peev",
+  "license": "ISC"
+}

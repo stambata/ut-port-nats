@@ -14,6 +14,7 @@ module.exports = (params = {}) => {
                 params.config,
                 {
                     type: 'nats',
+                    // nats options as defined per spec: https://github.com/nats-io/node-nats#connect-options
                     options: {
                         json: true
                     }
@@ -60,9 +61,10 @@ module.exports = (params = {}) => {
                 if (method.endsWith('.routeConfig') && Array.isArray(methods[method])) {
                     methods[method].forEach((spec) => {
                         if (!api[spec.method]) {
-                            // TODO use spec.config for validations
+                            // TODO: use spec.config for validations
                             let busMethod = this.bus.importMethod(spec.method);
                             let publish = (msg, replyTo) => {
+                                // TODO: check if there's replyTo in order to determine whether it is req/res or pub/sub
                                 return busMethod(msg)
                                     .then(result => {
                                         return this.connection.publish(replyTo, {result});

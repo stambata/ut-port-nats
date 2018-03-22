@@ -1,12 +1,14 @@
 const nats = require('nats');
 const merge = require('lodash.merge');
+const errorsFactory = require('./errors');
+let errors;
 module.exports = (params = {}) => {
-    const api = {};
     const Port = params.parent;
     class Nats extends Port {
         constructor(params = {}) {
             super(params);
             this.config = merge(
+                // default
                 {
                     id: 'nats',
                     logLevel: 'debug',
@@ -14,7 +16,9 @@ module.exports = (params = {}) => {
                         timeout: 30000
                     }
                 },
+                // custom
                 params.config,
+                // immutable
                 {
                     type: 'nats',
                     requestOptions: {
@@ -25,6 +29,10 @@ module.exports = (params = {}) => {
                     }
                 }
             );
+            this.api = {};
+            if (!errors) {
+                errors = errorsFactory(this.defineError);
+            }
         }
         start() {
             this.bus.importMethods(this.config, this.config.imports, {request: true, response: true}, this);
@@ -65,15 +73,19 @@ module.exports = (params = {}) => {
             Object.keys(methods).forEach(method => {
                 if (method.endsWith('.routeConfig') && Array.isArray(methods[method])) {
                     methods[method].forEach((spec) => {
-                        if (!api[spec.method]) {
+                        if (!this.api[spec.method]) {
                             // TODO use spec.config for validations
                             let busMethod = this.bus.importMethod(spec.method);
-                            let publish = (msg, replyTo) => {
-                                return busMethod(msg)
+                            let publish = (message, replyTo) => {
+                                this.log.trace && this.log.trace({message});
+                                if (!replyTo) {
+                                    return busMethod(message);
+                                }
+                                return busMethod(message)
                                     .then(result => {
                                         return this.connection.publish(replyTo, {result});
                                     })
-                                    .catch((err) => {
+                                    .catch(err => {
                                         return this.connection.publish(replyTo, {
                                             error: {
                                                 message: err.print || err.message,
@@ -83,7 +95,7 @@ module.exports = (params = {}) => {
                                     });
                             };
                             let sid = this.connection.subscribe(spec.method, publish);
-                            api[spec.method] = {
+                            this.api[spec.method] = {
                                 publish,
                                 unsubscribe: () => this.connection.unsubscribe(sid)
                             };
@@ -97,7 +109,7 @@ module.exports = (params = {}) => {
             return new Promise((resolve, reject) => {
                 this.connection.request($meta.method, msg, this.config.requestOptions, result => {
                     if (result instanceof Error) {
-                        reject(result);
+                        reject(errors.natsError(result));
                     } else {
                         resolve(result);
                     }
@@ -106,7 +118,7 @@ module.exports = (params = {}) => {
         }
         checkConnection() {
             if (!this.connection) {
-                throw new Error('port.notConnected');
+                throw errors.notConnected();
             }
         }
         stop() {
@@ -115,7 +127,13 @@ module.exports = (params = {}) => {
                     if (!this.connection) {
                         return true;
                     }
-                    Object.keys(api).forEach(key => api[key].unsubscribe());
+                    Object.keys(this.api).forEach(method => {
+                        this.api[method].unsubscribe();
+                        this.log.trace && this.log.trace({
+                            message: 'Unsubscribed',
+                            method
+                        });
+                    });
                     return this.connection.close();
                 });
         }

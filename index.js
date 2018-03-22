@@ -1,20 +1,25 @@
 const nats = require('nats');
+const merge = require('lodash.merge');
 module.exports = (params = {}) => {
     const api = {};
     const Port = params.parent;
     class Nats extends Port {
         constructor(params = {}) {
             super(params);
-            this.config = Object.assign(
+            this.config = merge(
                 {
                     id: 'nats',
                     logLevel: 'debug',
-                    requestTimeout: 30000
+                    requestOptions: {
+                        timeout: 30000
+                    }
                 },
                 params.config,
                 {
                     type: 'nats',
-                    // nats options as defined per spec: https://github.com/nats-io/node-nats#connect-options
+                    requestOptions: {
+                        max: 1
+                    },
                     options: {
                         json: true
                     }
@@ -61,10 +66,9 @@ module.exports = (params = {}) => {
                 if (method.endsWith('.routeConfig') && Array.isArray(methods[method])) {
                     methods[method].forEach((spec) => {
                         if (!api[spec.method]) {
-                            // TODO: use spec.config for validations
+                            // TODO use spec.config for validations
                             let busMethod = this.bus.importMethod(spec.method);
                             let publish = (msg, replyTo) => {
-                                // TODO: check if there's replyTo in order to determine whether it is req/res or pub/sub
                                 return busMethod(msg)
                                     .then(result => {
                                         return this.connection.publish(replyTo, {result});
@@ -91,7 +95,7 @@ module.exports = (params = {}) => {
         exec(msg = {}, $meta) {
             this.checkConnection();
             return new Promise((resolve, reject) => {
-                this.connection.requestOne($meta.method, msg, this.config.requestTimeout, (result) => {
+                this.connection.request($meta.method, msg, this.config.requestOptions, result => {
                     if (result instanceof Error) {
                         reject(result);
                     } else {

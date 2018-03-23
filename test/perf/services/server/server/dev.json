@@ -11,7 +11,14 @@
         "socket": false
     },
     "nats": {
-        "concurrency": 100000
+        "concurrency": 100000,
+        "options": {
+            "servers": [
+                "nats://127.0.0.1:4222",
+                "nats://127.0.0.1:5222",
+                "nats://127.0.0.1:6222"
+            ]
+        }
     },
     "db": {
         "concurrency": 100000,

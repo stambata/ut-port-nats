@@ -28,12 +28,5 @@ module.exports = () => {
                 test: {}
             }
         }
-        // modules: {
-        //     test: {
-        //         test(msg, $meta) {
-        //             return this.bus.importMethod()
-        //         }
-        //     }
-        // }
     };
 };

@@ -1,5 +1,4 @@
 const nats = require('nats');
-const merge = require('lodash.merge');
 const errorsFactory = require('./errors');
 let errors;
 module.exports = (params = {}) => {
@@ -13,7 +12,7 @@ module.exports = (params = {}) => {
                     id: 'nats',
                     logLevel: 'debug',
                     requestOptions: {
-                        timeout: 30000
+                        timeout: 60000
                     }
                 },
                 // custom

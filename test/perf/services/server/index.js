@@ -11,6 +11,6 @@ require('ut-run').run({
                 resolve();
             }
         });
-    })
-    .then(stop);
+    });
+    // .then(stop);
 }).catch(console.error);

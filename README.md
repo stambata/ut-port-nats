@@ -59,3 +59,25 @@ nats client specific options
 | `verbose`              |                                              | `false`                   | Turns on `+OK` protocol acknowledgements
 | `waitOnFirstConnect`   |                                              | `false`                   | If `true` the server will fall back to a reconnect mode if it fails its first connection attempt.
 | `yieldTime`            |                                              |                           | If set, processing will yield at least the specified number of milliseconds to IO callbacks before processing inbound messages
+
+
+# Performance Tests
+## Prerequesites
+
+[Download NATS](https://nats.io/download/) and use [this](https://nats.io/documentation/server/gnatsd-cluster/) guide to start the NATS server standalone or in a cluster.
+
+## Test execution
+
+Use [Visual studio code](https://code.visualstudio.com/) and run the `perf` launch with `Ctrl + F5`. If you want to run some tests directly in a bash console or a command prompt check [here](./.vscode/launch.json) what environment variables need to be passed.
+
+Currently the following environment variables are available:
+
+| Variable               | Default                   | Description
+|--------                |---------                  |---------
+| `workers`              | `1`                       | how many servers to start which will join one and the same queue group
+| `iterations`           | `1`                       | how many requests to be sent by the client
+
+
+# Monitoring
+
+The recommended monitoring tool is [natsboard](https://github.com/devfacet/natsboard)

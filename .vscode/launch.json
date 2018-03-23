@@ -1,0 +1,39 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "perf",
+            "outputCapture": "std",
+            "program": "${workspaceFolder}\\test\\perf\\index.js",
+            "env": {
+                "workers": 5,
+                "iterations": 50000
+            }
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "server",
+            "outputCapture": "std",
+            "program": "${workspaceFolder}\\test\\perf\\services\\server\\index.js",
+            "args": [
+                "--stdOut.mode=dev"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "client",
+            "outputCapture": "std",
+            "program": "${workspaceFolder}\\test\\perf\\services\\client\\index.js",
+            "args":[
+                "--stdOut.mode=dev"
+            ]
+        }
+    ]
+}

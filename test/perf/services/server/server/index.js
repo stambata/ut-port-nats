@@ -7,7 +7,6 @@ module.exports = () => {
                 createPort: require('ut-port-sql'),
                 createTT: false,
                 linkSP: true,
-                namespace: ['test'],
                 imports: ['test'],
                 schema: [{
                     path: path.join(__dirname, '..', 'schema'),

@@ -1,0 +1,16 @@
+{
+    "implementation": "ut-port-nats-perf-client",
+    "repl": false,
+    "console": false,
+    "log": false,
+    "stdOut": false,
+    "_stdOut": {
+        "mode": "dev"
+    },
+    "nats": {
+        "concurrency": 100000
+    },
+    "masterBus": {
+        "socket": false
+    }
+}

@@ -1,0 +1,24 @@
+{
+    "implementation": "ut-port-nats-perf",
+    "repl": false,
+    "console": false,
+    "log": false,
+    "stdOut": false,
+    "_stdOut": {
+        "mode": "dev"
+    },
+    "masterBus": {
+        "socket": false
+    },
+    "nats": {
+        "concurrency": 100000
+    },
+    "db": {
+        "concurrency": 100000,
+        "db": {
+            "server": "devdb08",
+            "database": "ut-port-nats-perf",
+            "requestTimeout": 20000
+        }
+    }
+}

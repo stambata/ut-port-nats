@@ -26,10 +26,12 @@
     "nats"
   ],
   "devDependencies": {
-    "ut-tools": "^5.32.7"
+    "ut-tools": "^5.32.7",
+    "ut-run": ">=9.3.0-rc-cubalibre.0 <9.3.0",
+    "ut-port-sql": "^7.1.1",
+    "ut-bus": "^6.2.0"
   },
   "dependencies": {
-    "lodash.merge": "^4.6.1",
     "nats": "^0.8.4"
   },
   "repository": {

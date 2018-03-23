@@ -7,7 +7,7 @@ module.exports = (params = {}) => {
     class Nats extends Port {
         constructor(params = {}) {
             super(params);
-            this.config = merge(
+            this.config = this.merge(
                 // default
                 {
                     id: 'nats',
@@ -94,7 +94,7 @@ module.exports = (params = {}) => {
                                         });
                                     });
                             };
-                            let sid = this.connection.subscribe(spec.method, publish);
+                            let sid = this.connection.subscribe(spec.method, {queue: this.bus.config.implementation}, publish);
                             this.api[spec.method] = {
                                 publish,
                                 unsubscribe: () => this.connection.unsubscribe(sid)

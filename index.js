@@ -106,11 +106,12 @@ module.exports = (params = {}) => {
         exec(msg = {}, $meta) {
             this.checkConnection();
             return new Promise((resolve, reject) => {
-                this.connection.request($meta.method, msg, this.config.requestOptions, result => {
-                    if (result instanceof Error) {
-                        reject(errors.natsError(result));
+                this.connection.request($meta.method, msg, this.config.requestOptions, response => {
+                    if (response instanceof Error) {
+                        reject(errors.natsError(response));
                     } else {
-                        resolve(result);
+                        // as there's no response code check if we have response.result or response.error to determini whether it is ok
+                        resolve(response);
                     }
                 });
             });

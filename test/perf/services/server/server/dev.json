@@ -11,7 +11,7 @@
         "socket": false
     },
     "nats": {
-        "concurrency": 100000,
+        "concurrency": 1000000,
         "options": {
             "servers": [
                 "nats://127.0.0.1:4222",
@@ -21,11 +21,11 @@
         }
     },
     "db": {
-        "concurrency": 100000,
+        "concurrency": 1000000,
         "db": {
             "server": "devdb08",
             "database": "ut-port-nats-perf",
-            "requestTimeout": 20000
+            "requestTimeout": 30000
         }
     }
 }

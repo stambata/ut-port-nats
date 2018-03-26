@@ -33,8 +33,9 @@ return Promise.all(Array.apply(null, Array(workerCount)).map(() => {
         });
     });
 })
-.then(() => {
+.then((workers) => {
+    console.log('worekrs:', workers.length);
     console.log('done');
-    // process.exit(0);
+    return process.env.autoClose === 'true' && process.exit(0);
 })
 .catch(console.error);

@@ -76,6 +76,7 @@ Currently the following environment variables are available:
 |--------                |---------                  |---------
 | `workers`              | `1`                       | how many servers to start which will join one and the same queue group
 | `iterations`           | `1`                       | how many requests to be sent by the client
+| `autoClose`            | `false`                   | whether all connections should be close after the tests finish
 
 
 # Monitoring

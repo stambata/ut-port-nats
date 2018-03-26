@@ -12,7 +12,8 @@
             "program": "${workspaceFolder}\\test\\perf\\index.js",
             "env": {
                 "workers": 5,
-                "iterations": 50000
+                "iterations": 50000,
+                "autoClose": true
             }
         },
         {

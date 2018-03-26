@@ -8,7 +8,10 @@
         "mode": "dev"
     },
     "nats": {
-        "concurrency": 100000
+        "concurrency": 1000000,
+        "requestOptions": {
+            "timeout": 100000
+        }
     },
     "masterBus": {
         "socket": false

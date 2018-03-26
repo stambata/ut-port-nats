@@ -18,6 +18,6 @@ require('ut-run').run({
                 mps: (iterations * 1000) / ms
             }, null, 4));
             process.send && process.send('done');
-            // return stop();
+            return process.env.autoClose === 'true' && stop();
         });
 }).catch(console.error);

@@ -1,4 +1,4 @@
-/* eslint no-console:0 */
+/* eslint no-console:0, no-process-env:0 */
 const packageJson = require('../../../../package.json');
 require('ut-run').run({
     version: packageJson.version
@@ -11,6 +11,7 @@ require('ut-run').run({
                 resolve();
             }
         });
+    }).then(() => {
+        return process.env.autoClose === 'true' && stop();
     });
-    // .then(stop);
 }).catch(console.error);
